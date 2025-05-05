@@ -21,15 +21,6 @@
 <body>
   <h1 id="playerName">Loading...</h1>
 
-  <div class="player-info">
-    <p><strong>Position:</strong> <span id="position"></span></p>
-    <p><strong>Rating:</strong> <span id="rating"></span></p>
-    <p><strong>Height:</strong> <span id="height"></span></p>
-    <p><strong>Weight:</strong> <span id="weight"></span></p>
-    <p><strong>School:</strong> <span id="school"></span></p>
-    <p><strong>Bio:</strong> <span id="bio"></span></p>
-  </div>
-
   <script>
     const params = new URLSearchParams(window.location.search);
     const playerId = params.get('id');
