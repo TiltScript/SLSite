@@ -50,6 +50,7 @@
       border-radius: 4px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       overflow: hidden;
+      flex-shrink: 0;
     }
     
     .news-image {
@@ -228,27 +229,41 @@
         Papa.parse(newsCsvUrl, {
           download: true,
           complete: function(results) {
-            if (results.data && results.data.length >= 4) {
-              let imageUrl = results.data[1][0]; // A2
-              const newsText = results.data[3][0]; // A4
-              
-              // Enhanced Google Drive URL handling
-              if (imageUrl.includes('drive.google.com')) {
-                const fileId = imageUrl.match(/[-\w]{25,}/);
-                if (fileId) {
-                  imageUrl = `https://lh3.googleusercontent.com/d/${fileId[0]}=s800`;
+            if (results.data && results.data.length >= 8) { // Changed to check for 8 rows
+              // Get both news items (A2/A4 and A6/A8)
+              const newsItems = [
+                {
+                  imageUrl: results.data[1][0], // A2
+                  text: results.data[3][0]      // A4
+                },
+                {
+                  imageUrl: results.data[5][0], // A6
+                  text: results.data[7][0]      // A8
                 }
-              }
-              
-              if (imageUrl && newsText) {
-                renderNewsItem(imageUrl, newsText);
+              ];
+
+              // Process and validate news items
+              const validNewsItems = newsItems.filter(item => item.imageUrl && item.text)
+                .map(item => {
+                  // Format Google Drive URLs
+                  if (item.imageUrl.includes('drive.google.com')) {
+                    const fileId = item.imageUrl.match(/[-\w]{25,}/);
+                    if (fileId) {
+                      item.imageUrl = `https://lh3.googleusercontent.com/d/${fileId[0]}=s800`;
+                    }
+                  }
+                  return item;
+                });
+
+              if (validNewsItems.length > 0) {
+                renderNewsItems(validNewsItems);
                 initAutoScroll();
                 setupNavigation();
               } else {
-                showError("Required data not found in cells A2 and A4");
+                showError("No valid news items found in specified cells (A2/A4 and A6/A8)");
               }
             } else {
-              showError("Not enough data in the spreadsheet");
+              showError("Not enough data in the spreadsheet (need at least 8 rows)");
             }
           },
           error: function(error) {
@@ -257,17 +272,22 @@
         });
       }
       
-      function renderNewsItem(imageUrl, text) {
-        ticker.innerHTML = `
-          <div class="news-item">
-            <img src="${imageUrl}" class="news-image" alt="LBA News" 
+      function renderNewsItems(items) {
+        ticker.innerHTML = '';
+        
+        items.forEach(item => {
+          const newsItem = document.createElement('div');
+          newsItem.className = 'news-item';
+          newsItem.innerHTML = `
+            <img src="${item.imageUrl}" class="news-image" alt="LBA News" 
                  onerror="this.onerror=null; this.src='https://via.placeholder.com/800x400?text=Image+Not+Available'">
             <div class="news-content">
-              <p class="news-text">${text}</p>
+              <p class="news-text">${item.text}</p>
               <div class="news-date">${new Date().toLocaleDateString()}</div>
             </div>
-          </div>
-        `;
+          `;
+          ticker.appendChild(newsItem);
+        });
       }
       
       function showError(message) {
