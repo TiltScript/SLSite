@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LBA Home Page</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      background-color: #f5f5f5;
+    }
+    
+    /* Standings Tables - Original Positioning and Styling */
+    .tables-wrapper {
+      width: 400px;
+      margin-right: 30px;
+      margin-top: 20px;
+    }
+    
+    .conference-container {
+      width: 100%;
+      margin-bottom: 30px;
+    }
+    
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 13px;
+    }
+    
+    th, td {
+      padding: 6px 10px;
+      text-align: center;
+      border: none;
+    }
+    
+    th {
+      background-color: #e0e0e0;
+      font-weight: bold;
+    }
+    
+    h2 {
+      text-align: center;
+      margin: 0 0 10px 0;
+      color: #333;
+      font-size: 16px;
+      width: 100%;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    
+    /* News Ticker - Positioned on the Right */
+    .news-ticker-container {
+      width: 450px;
+      margin-top: 20px;
+      font-family: Arial, sans-serif;
+      border: 1px solid #e0e0e0;
+      overflow: hidden;
+      background-color: #f8f8f8;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    
+    .news-ticker-header {
+      background-color: #1d428a;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    
+    .news-ticker {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 15px;
+      gap: 20px;
+      min-height: 300px;
+      align-items: center;
+    }
+    
+    .news-item {
+      min-width: 280px;
+      background: white;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .news-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    
+    .news-content {
+      padding: 12px;
+    }
+    
+    .news-text {
+      font-size: 14px;
+      line-height: 1.4;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .news-date {
+      font-size: 12px;
+      color: #777;
+      text-align: right;
+    }
+    
+    .news-ticker::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .news-ticker {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    .loading, .error {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 200px;
+      color: #666;
+    }
+    
+    .error {
+      color: #d32f2f;
+    }
+    
+    .ticker-nav {
+      display: flex;
+      justify-content: center;
+      padding: 8px;
+      background-color: #f1f1f1;
+    }
+    
+    .ticker-nav button {
+      background: #1d428a;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      margin: 0 5px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 1000px) {
+      body {
+        flex-direction: column;
+      }
+      
+      .tables-wrapper, .news-ticker-container {
+        width: 100%;
+        margin-right: 0;
+      }
+      
+      .news-ticker-container {
+        margin-top: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Standings Tables (Left Side - Original Position) -->
+  <div class="tables-wrapper">
+    <div class="conference-container">
+      <h2>Eastern Conference</h2>
+      <table id="easternTable">
+        <thead>
+          <tr id="easternHeader"></tr>
+        </thead>
+        <tbody id="easternBody"></tbody>
+      </table>
+    </div>
+
+    <div class="conference-container">
+      <h2>Western Conference</h2>
+      <table id="westernTable">
+        <thead>
+          <tr id="westernHeader"></tr>
+        </thead>
+        <tbody id="westernBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- News Ticker (Right Side) -->
+  <div class="news-ticker-container">
+    <div class="news-ticker-header">
+      <h2>LATEST LBA NEWS</h2>
+    </div>
+    <div class="ticker-nav">
+      <button id="prevBtn">Previous</button>
+      <button id="nextBtn">Next</button>
+    </div>
+    <div class="news-ticker" id="newsTicker">
+      <div class="loading">Loading news...</div>
+    </div>
+  </div>
+
+  <script>
+    // Standings Tables Script (Original)
+    async function loadStandingsData() {
+      const standingsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSc_gjjehNq1x1tXQappfHFEg-0ypvi1UJriEln5Ghv8SkfpG4k3bVDfYp-XEGXOiJdJFRJ5V_Xj3Sp/pub?gid=57730059&single=true&output=csv';
+
+      try {
+        const response = await fetch(standingsCsvUrl);
+        const text = await response.text();
+        const { data: rows } = Papa.parse(text.trim(), { skipEmptyLines: true });
+
+        // Get headers (replace O2 with "PCT")
+        const baseHeaders = rows[1].slice(11, 16);
+        baseHeaders[3] = "PCT";
+
+        // Load Eastern Conference
+        loadConferenceTable(
+          'easternHeader', 
+          'easternBody', 
+          ['Seed', ...baseHeaders],
+          rows, 
+          2, 5,
+          10, 16
+        );
+
+        // Load Western Conference
+        loadConferenceTable(
+          'westernHeader', 
+          'westernBody', 
+          ['Seed', ...baseHeaders],
+          rows, 
+          8, 11,
+          10, 16
+        );
+
+      } catch (error) {
+        console.error('Error loading tables:', error);
+        document.getElementById('easternBody').innerHTML = `
+          <tr><td colspan="6">Error loading data. Please try again later.</td></tr>
+        `;
+        document.getElementById('westernBody').innerHTML = `
+          <tr><td colspan="6">Error loading data. Please try again later.</td></tr>
+        `;
+      }
+    }
+
+    function loadConferenceTable(headerId, bodyId, headers, rows, startRow, endRow, dataStartCol, dataEndCol) {
+      const headerRow = document.getElementById(headerId);
+      const tbody = document.getElementById(bodyId);
+
+      // Clear any existing content
+      headerRow.innerHTML = '';
+      tbody.innerHTML = '';
+
+      // Add headers
+      headers.forEach(header => {
+        const th = document.createElement('th');
+        th.textContent = header || '-';
+        headerRow.appendChild(th);
+      });
+
+      // Add each row
+      for (let rowIndex = startRow; rowIndex <= endRow; rowIndex++) {
+        const seed = rows[rowIndex]?.[dataStartCol] || '-';
+        const rowData = rows[rowIndex]?.slice(dataStartCol + 1, dataEndCol) || [];
+
+        const tr = document.createElement('tr');
+
+        // Seed cell
+        const seedCell = document.createElement('td');
+        seedCell.textContent = seed;
+        tr.appendChild(seedCell);
+
+        // Data cells
+        rowData.forEach(cell => {
+          const td = document.createElement('td');
+          td.textContent = cell || '-';
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      }
+    }
+
+    // News Ticker Script
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load Standings Data
+      loadStandingsData();
+      
+      // Load News Ticker
+      const ticker = document.getElementById('newsTicker');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const newsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRrPYMiVIxReGjcTtka2STWnIKXx9H55SS6UOrTIJoCJfmkCARaRe4eEJdzC498tvnzScwhGAkBAVcg/pub?gid=0&single=true&output=csv';
+      
+      let scrollInterval;
+      let currentPosition = 0;
+
+      function loadNewsData() {
+        ticker.innerHTML = '<div class="loading">Loading news...</div>';
+        
+        Papa.parse(newsCsvUrl, {
+          download: true,
+          complete: function(results) {
+            if (results.data && results.data.length >= 4) {
+              let imageUrl = results.data[1][0]; // A2
+              const newsText = results.data[3][0]; // A4
+              
+              // Enhanced Google Drive URL handling
+              if (imageUrl.includes('drive.google.com')) {
+                const fileId = imageUrl.match(/[-\w]{25,}/);
+                if (fileId) {
+                  imageUrl = `https://lh3.googleusercontent.com/d/${fileId[0]}=s800`;
+                }
+              }
+              
+              if (imageUrl && newsText) {
+                renderNewsItem(imageUrl, newsText);
+                initAutoScroll();
+                setupNavigation();
+              } else {
+                showError("Required data not found in cells A2 and A4");
+              }
+            } else {
+              showError("Not enough data in the spreadsheet");
+            }
+          },
+          error: function(error) {
+            showError("Failed to load data: " + error.message);
+          }
+        });
+      }
+      
+      function renderNewsItem(imageUrl, text) {
+        ticker.innerHTML = `
+          <div class="news-item">
+            <img src="${imageUrl}" class="news-image" alt="NBA News" 
+                 onerror="this.onerror=null; this.src='https://via.placeholder.com/800x400?text=Image+Not+Available'">
+            <div class="news-content">
+              <p class="news-text">${text}</p>
+              <div class="news-date">${new Date().toLocaleDateString()}</div>
+            </div>
+          </div>
+        `;
+      }
+      
+      function showError(message) {
+        ticker.innerHTML = `<div class="error">${message}</div>`;
+      }
+      
+      function initAutoScroll() {
+        clearInterval(scrollInterval);
+        scrollInterval = setInterval(() => {
+          currentPosition += 1;
+          const maxScroll = ticker.scrollWidth - ticker.clientWidth;
+          
+          if (currentPosition >= maxScroll) {
+            currentPosition = 0;
+            ticker.scrollTo({ left: 0, behavior: 'instant' });
+          } else {
+            ticker.scrollTo({ left: currentPosition, behavior: 'instant' });
+          }
+        }, 30);
+      }
+      
+      function setupNavigation() {
+        prevBtn.addEventListener('click', () => {
+          currentPosition = Math.max(0, currentPosition - 300);
+          ticker.scrollTo({ left: currentPosition, behavior: 'smooth' });
+        });
+        
+        nextBtn.addEventListener('click', () => {
+          const maxScroll = ticker.scrollWidth - ticker.clientWidth;
+          currentPosition = Math.min(maxScroll, currentPosition + 300);
+          ticker.scrollTo({ left: currentPosition, behavior: 'smooth' });
+        });
+      }
+      
+      // Pause on hover
+      ticker.addEventListener('mouseenter', () => clearInterval(scrollInterval));
+      ticker.addEventListener('mouseleave', initAutoScroll);
+      
+      // Initial load
+      loadNewsData();
+    });
+  </script>
+</body>
+</html>
