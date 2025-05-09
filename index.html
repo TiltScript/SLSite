@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LBA Home Page</title>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
   <style>
     /* Navbar Styles */
     .navbar {
@@ -17,7 +19,6 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.2);
       z-index: 1000;
     }
-    
     .navbar-container {
       max-width: 1200px;
       margin: 0 auto;
@@ -26,25 +27,21 @@
       align-items: center;
       padding: 0 20px;
     }
-    
     .navbar-logo {
       color: white;
       font-weight: bold;
       font-size: 24px;
       text-decoration: none;
     }
-    
     .navbar-menu {
       display: flex;
       list-style: none;
       margin: 0;
       padding: 0;
     }
-    
     .navbar-item {
       margin-left: 20px;
     }
-    
     .navbar-link {
       color: white;
       text-decoration: none;
@@ -53,16 +50,14 @@
       border-radius: 4px;
       transition: background-color 0.3s;
     }
-    
     .navbar-link:hover {
       background-color: rgba(255,255,255,0.2);
     }
-    
     .navbar-link.active {
       background-color: rgba(255,255,255,0.3);
     }
-    
-    /* Adjust body padding to account for fixed navbar */
+
+    /* Page Layout */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -71,8 +66,8 @@
       justify-content: space-between;
       background-color: #f5f5f5;
     }
-    
-    /* News Ticker - Downsized with Full-Bleed Images */
+
+    /* News Ticker */
     .news-ticker-container {
       width: 400px;
       margin-right: 20px;
@@ -82,94 +77,18 @@
       background-color: #f8f8f8;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-    
     .news-ticker-header {
       background-color: #1d428a;
       color: white;
       padding: 15px;
       text-align: center;
     }
-    
-    .news-ticker {
-      display: flex;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      padding: 12px;
-      gap: 15px;
-      min-height: 280px;
-      align-items: stretch;
-    }
-    
-    .news-item {
-      min-width: 240px;
-      max-width: 240px;
-      border-radius: 4px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      overflow: hidden;
-      flex-shrink: 0;
-      position: relative;
-      height: 260px;
-    }
-    
-    .news-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    
-    .news-content {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
-      padding: 15px 12px 12px;
-      color: white;
-    }
-    
-    .news-text {
-      font-size: 14px;
-      line-height: 1.3;
-      margin-bottom: 6px;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-    }
-    
-    .news-date {
-      font-size: 12px;
-      color: rgba(255,255,255,0.8);
-      text-align: right;
-    }
-    
-    .news-ticker::-webkit-scrollbar {
-      display: none;
-    }
-    
-    .news-ticker {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    
-    .loading, .error {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 200px;
-      color: #666;
-    }
-    
-    .error {
-      color: #d32f2f;
-    }
-    
     .ticker-nav {
       display: flex;
       justify-content: center;
       padding: 8px;
       background-color: #f1f1f1;
     }
-    
     .ticker-nav button {
       background: #1d428a;
       color: white;
@@ -180,35 +99,91 @@
       cursor: pointer;
       font-size: 13px;
     }
-    
-    /* Standings Tables */
+    .news-ticker {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 12px;
+      gap: 15px;
+      min-height: 280px;
+      align-items: stretch;
+    }
+    .news-ticker::-webkit-scrollbar {
+      display: none;
+    }
+    .news-ticker {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .news-item {
+      min-width: 240px;
+      max-width: 240px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      overflow: hidden;
+      flex-shrink: 0;
+      position: relative;
+      height: 260px;
+    }
+    .news-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .news-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+      padding: 15px 12px 12px;
+      color: white;
+    }
+    .news-text {
+      font-size: 14px;
+      line-height: 1.3;
+      margin-bottom: 6px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    }
+    .news-date {
+      font-size: 12px;
+      color: rgba(255,255,255,0.8);
+      text-align: right;
+    }
+    .loading, .error {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 200px;
+      color: #666;
+    }
+    .error {
+      color: #d32f2f;
+    }
+
+    /* Standings Table */
     .tables-wrapper {
       width: 400px;
       margin-top: 20px;
     }
-    
-    .conference-container {
-      width: 100%;
-      margin-bottom: 30px;
-    }
-    
     table {
       border-collapse: collapse;
       width: 100%;
       font-size: 13px;
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    
     th, td {
       padding: 6px 10px;
       text-align: center;
-      border: none;
+      border: 1px solid #e0e0e0;
     }
-    
     th {
       background-color: #e0e0e0;
       font-weight: bold;
     }
-    
     h2 {
       text-align: center;
       margin: 0 0 10px 0;
@@ -216,41 +191,34 @@
       font-size: 16px;
       width: 100%;
     }
-    
     tr:nth-child(even) {
       background-color: #f9f9f9;
     }
-    
-    /* Responsive adjustments */
+
+    /* Responsive */
     @media (max-width: 1000px) {
       body {
         flex-direction: column;
       }
-      
       .news-ticker-container, .tables-wrapper {
         width: 100%;
         margin-right: 0;
       }
-      
       .tables-wrapper {
         margin-top: 30px;
       }
-      
       .navbar-container {
         flex-direction: column;
         padding: 10px;
       }
-      
       .navbar-menu {
         margin-top: 10px;
         flex-wrap: wrap;
         justify-content: center;
       }
-      
       .navbar-item {
         margin: 5px;
       }
-      
       .news-item {
         min-width: 75%;
         height: 220px;
@@ -258,6 +226,7 @@
     }
   </style>
 </head>
+
 <body>
   <!-- Navbar -->
   <nav class="navbar">
@@ -287,227 +256,140 @@
     </div>
   </div>
 
-  <!-- Standings Tables -->
+  <!-- Unified Standings Table -->
   <div class="tables-wrapper">
-    <div class="conference-container">
-      <h2>Eastern Conference</h2>
-      <table id="easternTable">
-        <thead>
-          <tr id="easternHeader"></tr>
-        </thead>
-        <tbody id="easternBody"></tbody>
-      </table>
-    </div>
-
-    <div class="conference-container">
-      <h2>Western Conference</h2>
-      <table id="westernTable">
-        <thead>
-          <tr id="westernHeader"></tr>
-        </thead>
-        <tbody id="westernBody"></tbody>
-      </table>
-    </div>
+    <h2>Standings</h2>
+    <table id="standingsTable">
+      <thead>
+        <tr id="standingsHeader"></tr>
+      </thead>
+      <tbody id="standingsBody"></tbody>
+    </table>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Navbar functionality
-      const navbarLinks = document.querySelectorAll('.navbar-link');
-      
-      navbarLinks.forEach(link => {
+      // Navbar toggle active class
+      document.querySelectorAll('.navbar-link').forEach(link => {
         link.addEventListener('click', function(e) {
           if (!this.classList.contains('active')) {
             e.preventDefault();
-            navbarLinks.forEach(lnk => lnk.classList.remove('active'));
+            document.querySelectorAll('.navbar-link').forEach(l => l.classList.remove('active'));
             this.classList.add('active');
-            console.log('Navigating to:', this.textContent);
           }
         });
       });
 
-      // Load News Ticker
-      const ticker = document.getElementById('newsTicker');
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      const newsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRrPYMiVIxReGjcTtka2STWnIKXx9H55SS6UOrTIJoCJfmkCARaRe4eEJdzC498tvnzScwhGAkBAVcg/pub?gid=0&single=true&output=csv';
-      
-      let scrollInterval;
-      let currentPosition = 0;
+      // News Ticker logic
+      const ticker = document.getElementById('newsTicker'),
+            prevBtn = document.getElementById('prevBtn'),
+            nextBtn = document.getElementById('nextBtn'),
+            newsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRrPYMiVIxReGjcTtka2STWnIKXx9H55SS6UOrTIJoCJfmkCARaRe4eEJdzC498tvnzScwhGAkBAVcg/pub?gid=0&single=true&output=csv';
 
-      function loadNewsData() {
-        ticker.innerHTML = '<div class="loading">Loading news...</div>';
-        
-        Papa.parse(newsCsvUrl, {
-          download: true,
-          complete: function(results) {
-            if (results.data && results.data.length >= 8) {
-              const newsItems = [
-                {
-                  imageUrl: results.data[1][0],
-                  text: results.data[3][0]
-                },
-                {
-                  imageUrl: results.data[5][0],
-                  text: results.data[7][0]
-                }
-              ];
+      let scrollInterval, pos = 0;
 
-              const validNewsItems = newsItems.filter(item => item.imageUrl && item.text)
-                .map(item => {
-                  if (item.imageUrl.includes('drive.google.com')) {
-                    const fileId = item.imageUrl.match(/[-\w]{25,}/);
-                    if (fileId) {
-                      item.imageUrl = `https://lh3.googleusercontent.com/d/${fileId[0]}=s800`;
-                    }
-                  }
-                  return item;
-                });
+      function showError(msg) {
+        ticker.innerHTML = `<div class="error">${msg}</div>`;
+      }
 
-              if (validNewsItems.length > 0) {
-                renderNewsItems(validNewsItems);
-                initAutoScroll();
-                setupNavigation();
-              } else {
-                showError("No valid news items found in specified cells (A2/A4 and A6/A8)");
-              }
-            } else {
-              showError("Not enough data in the spreadsheet (need at least 8 rows)");
-            }
-          },
-          error: function(error) {
-            showError("Failed to load data: " + error.message);
-          }
-        });
-      }
-      
-      function renderNewsItems(items) {
-        ticker.innerHTML = '';
-        
-        items.forEach(item => {
-          const newsItem = document.createElement('div');
-          newsItem.className = 'news-item';
-          newsItem.innerHTML = `
-            <img src="${item.imageUrl}" class="news-image" alt="LBA News" 
-                 onerror="this.onerror=null; this.src='https://via.placeholder.com/600x400?text=Image+Not+Available'">
-            <div class="news-content">
-              <p class="news-text">${item.text}</p>
-              <div class="news-date">${new Date().toLocaleDateString()}</div>
-            </div>
-          `;
-          ticker.appendChild(newsItem);
-        });
-      }
-      
-      function showError(message) {
-        ticker.innerHTML = `<div class="error">${message}</div>`;
-      }
-      
       function initAutoScroll() {
         clearInterval(scrollInterval);
         scrollInterval = setInterval(() => {
-          currentPosition += 1;
-          const maxScroll = ticker.scrollWidth - ticker.clientWidth;
-          
-          if (currentPosition >= maxScroll) {
-            currentPosition = 0;
-            ticker.scrollTo({ left: 0, behavior: 'instant' });
-          } else {
-            ticker.scrollTo({ left: currentPosition, behavior: 'instant' });
-          }
+          pos = (pos + 1) % ((ticker.scrollWidth - ticker.clientWidth) || 1);
+          ticker.scrollTo({ left: pos, behavior: 'instant' });
         }, 30);
       }
-      
-      function setupNavigation() {
-        prevBtn.addEventListener('click', () => {
-          currentPosition = Math.max(0, currentPosition - 300);
-          ticker.scrollTo({ left: currentPosition, behavior: 'smooth' });
-        });
-        
-        nextBtn.addEventListener('click', () => {
-          const maxScroll = ticker.scrollWidth - ticker.clientWidth;
-          currentPosition = Math.min(maxScroll, currentPosition + 300);
-          ticker.scrollTo({ left: currentPosition, behavior: 'smooth' });
+
+      function loadNewsData() {
+        ticker.innerHTML = '<div class="loading">Loading news...</div>';
+        Papa.parse(newsCsvUrl, {
+          download: true,
+          complete: res => {
+            if (res.data.length < 8) return showError('Not enough rows for news');
+            const items = [
+              { imageUrl: res.data[1][0], text: res.data[3][0] },
+              { imageUrl: res.data[5][0], text: res.data[7][0] }
+            ]
+            .filter(i => i.imageUrl && i.text)
+            .map(item => {
+              const m = item.imageUrl.match(/[-\w]{25,}/);
+              if (m) item.imageUrl = `https://lh3.googleusercontent.com/d/${m[0]}=s800`;
+              return item;
+            });
+            if (!items.length) return showError('No valid news items');
+            ticker.innerHTML = '';
+            items.forEach(i => {
+              const div = document.createElement('div');
+              div.className = 'news-item';
+              div.innerHTML = `
+                <img src="${i.imageUrl}" class="news-image" onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
+                <div class="news-content">
+                  <p class="news-text">${i.text}</p>
+                  <div class="news-date">${new Date().toLocaleDateString()}</div>
+                </div>`;
+              ticker.appendChild(div);
+            });
+            initAutoScroll();
+          },
+          error: err => showError('Failed to load news: ' + err.message)
         });
       }
-      
+
+      prevBtn.addEventListener('click', () => {
+        pos = Math.max(0, pos - 300);
+        ticker.scrollTo({ left: pos, behavior: 'smooth' });
+      });
+      nextBtn.addEventListener('click', () => {
+        pos = Math.min(ticker.scrollWidth - ticker.clientWidth, pos + 300);
+        ticker.scrollTo({ left: pos, behavior: 'smooth' });
+      });
       ticker.addEventListener('mouseenter', () => clearInterval(scrollInterval));
       ticker.addEventListener('mouseleave', initAutoScroll);
-      
+
       loadNewsData();
       loadStandingsData();
     });
 
     async function loadStandingsData() {
-      const standingsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSc_gjjehNq1x1tXQappfHFEg-0ypvi1UJriEln5Ghv8SkfpG4k3bVDfYp-XEGXOiJdJFRJ5V_Xj3Sp/pub?gid=57730059&single=true&output=csv';
-
+      const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSc_gjjehNq1x1tXQappfHFEg-0ypvi1UJriEln5Ghv8SkfpG4k3bVDfYp-XEGXOiJdJFRJ5V_Xj3Sp/pub?gid=57730059&single=true&output=csv';
       try {
-        const response = await fetch(standingsCsvUrl);
-        const text = await response.text();
-        const { data: rows } = Papa.parse(text.trim(), { skipEmptyLines: true });
+        const txt = await (await fetch(url)).text();
+        const data = Papa.parse(txt.trim(), { skipEmptyLines: true }).data;
 
-        const baseHeaders = rows[1].slice(11, 16);
-        baseHeaders[3] = "PCT";
+        // pull F2:J2
+        const headers = data[1].slice(5, 10);
+        // rename first and last
+        headers[0] = 'Seed';
+        headers[4] = 'PCT';
 
-        loadConferenceTable(
-          'easternHeader', 
-          'easternBody', 
-          ['Seed', ...baseHeaders],
-          rows, 
-          2, 5,
-          10, 16
-        );
+        // pull F3:J10
+        const rows = data.slice(2, 10).map(r => r.slice(5, 10));
 
-        loadConferenceTable(
-          'westernHeader', 
-          'westernBody', 
-          ['Seed', ...baseHeaders],
-          rows, 
-          8, 11,
-          10, 16
-        );
+        const thead = document.getElementById('standingsHeader'),
+              tbody = document.getElementById('standingsBody');
+        thead.innerHTML = '';
+        tbody.innerHTML = '';
 
-      } catch (error) {
-        console.error('Error loading tables:', error);
-        document.getElementById('easternBody').innerHTML = `
-          <tr><td colspan="6">Error loading data. Please try again later.</td></tr>
-        `;
-        document.getElementById('westernBody').innerHTML = `
-          <tr><td colspan="6">Error loading data. Please try again later.</td></tr>
-        `;
-      }
-    }
-
-    function loadConferenceTable(headerId, bodyId, headers, rows, startRow, endRow, dataStartCol, dataEndCol) {
-      const headerRow = document.getElementById(headerId);
-      const tbody = document.getElementById(bodyId);
-
-      headerRow.innerHTML = '';
-      tbody.innerHTML = '';
-
-      headers.forEach(header => {
-        const th = document.createElement('th');
-        th.textContent = header || '-';
-        headerRow.appendChild(th);
-      });
-
-      for (let rowIndex = startRow; rowIndex <= endRow; rowIndex++) {
-        const seed = rows[rowIndex]?.[dataStartCol] || '-';
-        const rowData = rows[rowIndex]?.slice(dataStartCol + 1, dataEndCol) || [];
-
-        const tr = document.createElement('tr');
-
-        const seedCell = document.createElement('td');
-        seedCell.textContent = seed;
-        tr.appendChild(seedCell);
-
-        rowData.forEach(cell => {
-          const td = document.createElement('td');
-          td.textContent = cell || '-';
-          tr.appendChild(td);
+        // render headers
+        headers.forEach(h => {
+          const th = document.createElement('th');
+          th.textContent = h || '-';
+          thead.appendChild(th);
         });
 
-        tbody.appendChild(tr);
+        // render data rows
+        rows.forEach(r => {
+          const tr = document.createElement('tr');
+          r.forEach(c => {
+            const td = document.createElement('td');
+            td.textContent = c || '-';
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      } catch (e) {
+        console.error(e);
+        document.getElementById('standingsBody').innerHTML = `<tr><td colspan="5">Error loading standings</td></tr>`;
       }
     }
   </script>
