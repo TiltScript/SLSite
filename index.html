@@ -263,7 +263,7 @@
         <li class="navbar-item"><a href="#" class="navbar-link">Schedule</a></li>
         <li class="navbar-item"><a href="#" class="navbar-link">Players</a></li>
         <li class="navbar-item"><a href="#" class="navbar-link">Stats</a></li>
-        <li class="navbar-item"><a href="#" class="navbar-link">Teams</a></li>
+        <li class="navbar-item"><a href="teams.html" class="navbar-link">Teams</a></li>
       </ul>
     </div>
   </nav>
@@ -294,8 +294,13 @@
       // Navbar toggle
       document.querySelectorAll('.navbar-link').forEach(link => {
         link.addEventListener('click', function(e) {
-          if (!this.classList.contains('active')) {
+          // Only prevent default for # links
+          if (this.getAttribute('href') === '#') {
             e.preventDefault();
+          }
+
+          // Update active class
+          if (!this.classList.contains('active')) {
             document.querySelectorAll('.navbar-link').forEach(l => l.classList.remove('active'));
             this.classList.add('active');
           }
