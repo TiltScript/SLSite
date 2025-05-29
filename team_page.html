@@ -7,6 +7,9 @@
   <style>
     body, body * {
       font-weight: bold !important;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
     :root {
       --dark-bg: #121212;
@@ -22,11 +25,6 @@
       background-color: var(--dark-bg);
       color: var(--text-primary);
       font-family: Arial, sans-serif;
-      margin: 0; 
-      padding: 80px 20px 20px;
-      display: flex; 
-      flex-direction: column;
-      align-items: center;
     }
 
     .navbar {
@@ -58,8 +56,6 @@
     .navbar-menu { 
       display: flex; 
       list-style: none; 
-      margin: 0; 
-      padding: 0; 
     }
     .navbar-item { 
       margin-left: 20px; 
@@ -82,40 +78,97 @@
       color: var(--accent-gold);
       border-color: var(--accent-gold);
     }
-    h1, h2 {
-      margin: 0 0 20px 0;
-    }
+
+    /* Team Header Styles */
     #teamHeader {
-      padding: 20px;
-      text-align: center;
-      width: 320px;
+      padding: 10px 0 0 10px; /* Tight padding, nearly to edge */
+      width: 100%;
+      margin-top: 62px; /* Navbar height + small gap */
     }
+
+    .team-header-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .team-info {
+      display: flex;
+      flex-direction: column;
+    }
+
     #teamLogo {
-      max-width: 100%;
-      max-height: 150px;
+      width: 160px;
+      height: 160px;
       object-fit: contain;
       border-radius: 8px;
-      margin-bottom: 20px;
     }
+
+    #teamName {
+      margin: 0 0 5px 0;
+      font-size: 2.2rem;
+    }
+
     #teamOwner {
       color: var(--text-secondary);
-      font-size: 16px;
-      margin-top: 8px;
+      font-size: 1.1rem;
     }
-    #backLink {
-      margin-top: 30px;
-      color: var(--accent-gold);
-      text-decoration: none;
-      font-size: 16px;
-      border: 1px solid var(--accent-gold);
-      padding: 8px 16px;
-      border-radius: 6px;
-      transition: all 0.3s ease;
-      width: max-content;
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      #teamHeader {
+        padding: 8px 0 0 8px;
+      }
+      
+      .team-header-container {
+        gap: 10px;
+      }
+      
+      #teamLogo {
+        width: 120px;
+        height: 120px;
+      }
+      
+      #teamName {
+        font-size: 1.8rem;
+      }
     }
-    #backLink:hover {
-      background-color: var(--accent-gold);
-      color: var(--dark-bg);
+
+    @media (max-width: 480px) {
+      .navbar {
+        padding: 12px 0;
+      }
+      
+      .navbar-container {
+        padding: 0 10px;
+      }
+      
+      .navbar-logo {
+        font-size: 20px;
+      }
+      
+      .navbar-link {
+        font-size: 14px;
+        padding: 6px 8px;
+      }
+      
+      #teamHeader {
+        margin-top: 58px;
+        padding: 5px 0 0 5px;
+      }
+      
+      #teamLogo {
+        width: 100px;
+        height: 100px;
+      }
+      
+      #teamName {
+        font-size: 1.5rem;
+      }
+      
+      #teamOwner {
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
@@ -133,21 +186,22 @@
     </div>
   </nav>
 
-
   <div id="teamHeader">
-    <h1 id="teamName">Loading...</h1>
-    <img id="teamLogo" src="" alt="Team Logo" />
-    <p id="teamOwner"></p>
+    <div class="team-header-container">
+      <img id="teamLogo" src="" alt="Team Logo" />
+      <div class="team-info">
+        <h1 id="teamName">Loading...</h1>
+        <p id="teamOwner"></p>
+      </div>
+    </div>
   </div>
-
-  <a href="teams.html" id="backLink">← Back to Teams</a>
 
   <script>
     // Parse the query param — your URLs are like team_page.html?ColumbusRiverhawks
-    const query = window.location.search.substring(1); // removes the "?"
+    const query = window.location.search.substring(1);
     const teamId = query || null;
 
-    // Hardcoded team data — add all your teams here!
+    // Hardcoded team data
     const teams = {
       ColumbusRiverhawks: {
         name: "Columbus Riverhawks",
@@ -209,10 +263,7 @@
       document.getElementById('teamOwner').style.color = team.color;
       document.title = team.name;
     } else {
-      // Show error if team not found
-      document.getElementById('teamHeader').innerHTML = `<h2 style="color: red;">Team not found</h2>
-        <p>Go back and select a valid team.</p>`;
-      document.getElementById('backLink').style.display = 'inline-block';
+      document.getElementById('teamHeader').innerHTML = `<h2 style="color: red;">Team not found</h2>`;
     }
   </script>
 </body>
