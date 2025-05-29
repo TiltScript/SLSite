@@ -86,10 +86,7 @@
       margin: 0 0 20px 0;
     }
     #teamHeader {
-      background-color: var(--card-bg);
       padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
       text-align: center;
       width: 320px;
     }
@@ -208,7 +205,9 @@
       document.getElementById('teamOwner').textContent = `Owned by: ${team.owner}`;
       document.getElementById('teamLogo').src = team.logo;
       document.getElementById('teamLogo').alt = team.name + " Logo";
-      document.getElementById('teamHeader').style.backgroundColor = team.color;
+      document.getElementById('teamName').style.color = team.color;
+      document.getElementById('teamOwner').style.color = team.color;
+      document.title = team.name;
     } else {
       // Show error if team not found
       document.getElementById('teamHeader').innerHTML = `<h2 style="color: red;">Team not found</h2>
