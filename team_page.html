@@ -81,9 +81,9 @@
 
     /* Team Header Styles */
     #teamHeader {
-      padding: 10px 0 0 10px; /* Tight padding, nearly to edge */
+      padding: 10px 0 0 10px;
       width: 100%;
-      margin-top: 62px; /* Navbar height + small gap */
+      margin-top: 62px;
     }
 
     .team-header-container {
@@ -114,6 +114,33 @@
       font-size: 1.1rem;
     }
 
+    /* Roster Table Styles */
+    .roster-container {
+      padding: 20px 10px;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .roster-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .roster-table th {
+      background-color: var(--darker-bg);
+      color: var(--accent-gold);
+      padding: 12px;
+      text-align: left;
+      border-bottom: 2px solid var(--accent-gold);
+    }
+
+    
+
+    .roster-table tr:last-child td {
+      border-bottom: none;
+    }
+
     /* Responsive Styles */
     @media (max-width: 768px) {
       #teamHeader {
@@ -131,6 +158,12 @@
       
       #teamName {
         font-size: 1.8rem;
+      }
+
+      .roster-table th, 
+      .roster-table td {
+        padding: 8px;
+        font-size: 14px;
       }
     }
 
@@ -169,6 +202,11 @@
       #teamOwner {
         font-size: 0.9rem;
       }
+
+      .roster-table {
+        display: block;
+        overflow-x: auto;
+      }
     }
   </style>
 </head>
@@ -194,6 +232,30 @@
         <p id="teamOwner"></p>
       </div>
     </div>
+  </div>
+
+  <div class="roster-container">
+    <h2>Roster</h2>
+    <table class="roster-table">
+      <thead>
+        <tr>
+          <th>Player Name:</th>
+          <th>Height:</th>
+          <th>Weight:</th>
+          <th>Wingspan:</th>
+          <th>Season Drafted:</th>
+          <th>Salary:</th>
+        </tr>
+      </thead>
+      <tbody id="rosterBody">
+        <!-- Blank rows to be filled by JavaScript -->
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      </tbody>
+    </table>
   </div>
 
   <script>
@@ -262,6 +324,11 @@
       document.getElementById('teamName').style.color = team.color;
       document.getElementById('teamOwner').style.color = team.color;
       document.title = team.name;
+      
+      // You can populate the roster table here with JavaScript
+      // Example:
+      // const rosterData = getRosterData(teamId);
+      // populateRosterTable(rosterData);
     } else {
       document.getElementById('teamHeader').innerHTML = `<h2 style="color: red;">Team not found</h2>`;
     }
