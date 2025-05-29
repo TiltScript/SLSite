@@ -1,327 +1,328 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LBA Teams</title>
-  <style>
-    body, body * {
-      font-weight: bold !important;
-    }
-    :root {
-      --dark-bg: #121212;
-      --darker-bg: #0a0a0a;
-      --card-bg: #1e1e1e;
-      --text-primary: #ffffff;
-      --text-secondary: #b0b0b0;
-      --accent-gold: #FFD700;
-      --accent-blue: #1d428a;
-    }
-    
-    body {
-      background-color: var(--dark-bg);
-      color: var(--text-primary);
-      font-family: Arial, sans-serif;
-      margin: 0; 
-      padding: 80px 20px 20px;
-      display: flex; 
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .navbar {
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      width: 100%;
-      background-color: var(--darker-bg); 
-      padding: 15px 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.5); 
-      z-index: 1000;
-      border-bottom: 2px solid var(--accent-gold);
-    }
-    .navbar-container {
-      max-width: 1200px; 
-      margin: 0 auto;
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center;
-      padding: 0 20px;
-    }
-    .navbar-logo { 
-      color: var(--accent-gold); 
-      font-size: 24px; 
-      text-decoration: none; 
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .navbar-menu { 
-      display: flex; 
-      list-style: none; 
-      margin: 0; 
-      padding: 0; 
-    }
-    .navbar-item { 
-      margin-left: 20px; 
-    }
-    .navbar-link {
-      color: var(--text-primary); 
-      text-decoration: none; 
-      font-size: 16px;
-      padding: 8px 12px; 
-      border-radius: 4px; 
-      transition: all 0.3s;
-      border: 1px solid transparent;
-    }
-    .navbar-link:hover { 
-      color: var(--accent-gold);
-      border-color: var(--accent-gold);
-    }
-    .navbar-link.active { 
-      background-color: rgba(255, 215, 0, 0.2);
-      color: var(--accent-gold);
-      border-color: var(--accent-gold);
-    }
-
-    /* Teams Grid - 2 rows of 4 */
-    .teams-container {
-      width: 90%;
-      max-width: 1000px; /* Adjusted for 4 columns */
-      margin-top: 20px;
-    }
-
-    .teams-header {
-      text-align: center;
-      color: var(--accent-gold);
-      font-size: 24px;
-      margin-bottom: 30px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding-bottom: 10px;
-    }
-
-    .teams-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr); /* 4 columns */
-      grid-template-rows: repeat(2, auto); /* 2 rows */
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .team-card {
-      background-color: var(--card-bg);
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      transition: all 0.3s;
-      border: 1px solid #333;
-      width: 100%; /* Fill grid cell */
-    }
-
-    .team-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-      border-color: var(--accent-gold);
-    }
-
-    .logo-wrapper {
-      height: 150px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: var(--darker-bg);
-      border-bottom: 1px solid #333;
-      padding: 10px;
-    }
-
-    .team-logo {
-      max-width: 90%;
-      max-height: 140px;
-      object-fit: contain;
-    }
-
-    .team-info {
-      padding: 15px;
-      text-align: center;
-    }
-
-
-    .team-owned-by {
-      color: var(--text-secondary);
-      font-size: 12px;
-      margin-bottom: 8px;
-    }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      .teams-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
-        grid-template-rows: repeat(4, auto); /* 4 rows */
-      }
-    }
-
-    @media (max-width: 600px) {
-      .teams-grid {
-        grid-template-columns: 1fr; /* 1 column on small screens */
-      }
-      
-      .navbar-container { 
-        flex-direction: column; 
-      }
-      
-      .navbar-menu {
-        margin-top: 10px; 
-        flex-wrap: wrap; 
-        justify-content: center;
-      }
-      
-      .navbar-item { 
-        margin: 5px; 
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <nav class="navbar">
-    <div class="navbar-container">
-      <a href="index.html" class="navbar-logo">LBA</a>
-      <ul class="navbar-menu">
-        <li class="navbar-item"><a href="index.html" class="navbar-link">Home</a></li>
-        <li class="navbar-item"><a href="#" class="navbar-link">Schedule</a></li>
-        <li class="navbar-item"><a href="#" class="navbar-link">Players</a></li>
-        <li class="navbar-item"><a href="#" class="navbar-link">Stats</a></li>
-        <li class="navbar-item"><a href="teams.html" class="navbar-link active">Teams</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <div class="teams-container">
-    <h1 class="teams-header">LBA Teams</h1>
-    
-    <div class="teams-grid">
-      <!-- Row 1 -->
-      <div class="team-card">
-        <div class="logo-wrapper">
-          <img src="https://drive.google.com/thumbnail?id=1E-WHv0i16L6ViK2AhLsY3tyduxo7j2nS&sz=w250-h180" alt="Columbus Riverhawks" class="team-logo">
-        </div>
-        <div class="team-info">
-          <h3 style="color: #684428;
-            font-size: 16px;
-            margin-bottom: 6px;">Columbus Riverhawks</h3>
-          <p class="team-owned-by">Owned by:</p>
-          <p style="color: #684428;
-            font-size: 15px;">Kay Rivers</p>
-        </div>
-      </div>
-      <div class="team-card">
-        <div class="logo-wrapper">
-          <img src="https://drive.google.com/thumbnail?id=1pIxyc3TwFKx0fEkhk7Tyc_ae4E0kRiuk&sz=w250-h180" alt="Dallas Steers" class="team-logo">
-        </div>
-        <div class="team-info">
-          <h3 style="color: silver;
-            font-size: 16px;
-            margin-bottom: 6px;">Dallas Steers</h3>
-          <p class="team-owned-by">Owned by:</p>
-          <p style="color: silver;
-            font-size: 15px;">Keyon Hens</p>
-        </div>
-      </div>
-      <div class="team-card">
-        <div class="logo-wrapper">
-          <img src="https://drive.google.com/thumbnail?id=1wkB6z3U6EwTGnYjad__52dR84KWMloL2&sz=w250-h180" alt="Denver Mountaineers" class="team-logo">
-        </div>
-        <div class="team-info">
-          <h3 style="color: #E1A80E;
-            font-size: 16px;
-            margin-bottom: 6px;">Denver Mountaineers</h3>
-          <p class="team-owned-by">Owned by:</p>
-          <p style="color: #E1A80E;
-            font-size: 15px;">Hunter Jackson</p>
-        </div>
-      </div>
-      <div class="team-card">
-        <div class="logo-wrapper">
-          <img src="https://drive.google.com/thumbnail?id=1qZk64ky90r0Ddg_uhH7NOPQg5-vSHDjZ&sz=w250-h180" alt="Maine Mobsters" class="team-logo">
-        </div>
-        <div class="team-info">
-          <h3 style="color: gold;
-            font-size: 16px;
-            margin-bottom: 6px;">Maine Mobsters</h3>
-          <p class="team-owned-by">Owned by:</p>
-          <p style="color: gold;
-            font-size: 15px;">AK Abass</p>
-        </div>
-      </div>
-      <!-- Row 2 -->
-      <div class="team-card">
-        <div class="logo-wrapper">
-          <img src="https://drive.google.com/thumbnail?id=1qUSjUwrpWiHvExokwTkJWDCR0TZ9hlwT&sz=w250-h180" alt="Miami Vice Sinners" class="team-logo">
-        </div>
-        <div class="team-info">
-          <h3 style="color: pink;
-            font-size: 16px;
-            margin-bottom: 6px;">Miami Vice Sinners</h3>
-          <p class="team-owned-by">Owned by:</p>
-          <p style="color: pink;
-            font-size: 15px;">Kenan Kurt</p>
-        </div>
-      </div>
-      <div class="team-card">
-        <div class="logo-wrapper">
-          <img src="https://drive.google.com/thumbnail?id=1N0ZekAA21kXlQ9tnbyAseBePJJw79vy2&sz=w250-h180" alt="New York City Slickers" class="team-logo">
-        </div>
-        <div class="team-info">
-          <h3 style="color: #263D4E;
-            font-size: 16px;
-            margin-bottom: 6px;">New York City Slickers</h3>
-          <p class="team-owned-by">Owned by:</p>
-          <p style="color: #263D4E;
-            font-size: 15px;">Maverick Doncic</p>
-        </div>
-      </div>
-      <div class="team-card">
-        <div class="logo-wrapper">
-          <img src="https://drive.google.com/thumbnail?id=1h-vWWI_naDdsmKz2lsvfsPgFowBJQIWO&sz=w250-h180" alt="Phoenix Heat" class="team-logo">
-        </div>
-        <div class="team-info">
-          <h3 style="color: orange;
-            font-size: 16px;
-            margin-bottom: 6px;">Phoenix Heat</h3>
-          <p class="team-owned-by">Owned by:</p>
-          <p style="color: orange;
-            font-size: 15px;">Razor Blades</p>
-        </div>
-      </div>     
-      <div class="team-card">
-        <div class="logo-wrapper">
-          <img src="https://drive.google.com/thumbnail?id=1zRbm7lk35HC9XMiOBEUhcBc_UMMhZ7t5&sz=w250-h180" alt="Utah Raptors" class="team-logo">
-        </div>
-        <div class="team-info">
-          <h3 style="color: antiquewhite;
-            font-size: 16px;
-            margin-bottom: 6px;">Utah Raptors</h3>
-          <p class="team-owned-by">Owned by:</p>
-          <p style="color: antiquewhite;
-            font-size: 15px;">King Beowulf</p>
-        </div>
-      </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const currentPage = location.pathname.split('/').pop();
-      document.querySelectorAll('.navbar-link').forEach(link => {
-        if (link.getAttribute('href') === currentPage) {
-          link.classList.add('active');
-        }
-        
-        link.addEventListener('click', function(e) {
-          if (!this.classList.contains('active')) {
-            document.querySelectorAll('.navbar-link').forEach(l => l.classList.remove('active'));
-            this.classList.add('active');
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>LBA Teams</title>
+        <style>
+          body, body * {
+            font-weight: bold !important;
           }
-        });
-      });
-    });
-  </script>
-</body>
-</html>
+          :root {
+            --dark-bg: #121212;
+            --darker-bg: #0a0a0a;
+            --card-bg: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --accent-gold: #FFD700;
+            --accent-blue: #1d428a;
+          }
+
+          body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: Arial, sans-serif;
+            margin: 0; 
+            padding: 80px 20px 20px;
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .navbar {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%;
+            background-color: var(--darker-bg); 
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5); 
+            z-index: 1000;
+            border-bottom: 2px solid var(--accent-gold);
+          }
+          .navbar-container {
+            max-width: 1200px; 
+            margin: 0 auto;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 0 20px;
+          }
+          .navbar-logo { 
+            color: var(--accent-gold); 
+            font-size: 24px; 
+            text-decoration: none; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+          }
+          .navbar-menu { 
+            display: flex; 
+            list-style: none; 
+            margin: 0; 
+            padding: 0; 
+          }
+          .navbar-item { 
+            margin-left: 20px; 
+          }
+          .navbar-link {
+            color: var(--text-primary); 
+            text-decoration: none; 
+            font-size: 16px;
+            padding: 8px 12px; 
+            border-radius: 4px; 
+            transition: all 0.3s;
+            border: 1px solid transparent;
+          }
+          .navbar-link:hover { 
+            color: var(--accent-gold);
+            border-color: var(--accent-gold);
+          }
+          .navbar-link.active { 
+            background-color: rgba(255, 215, 0, 0.2);
+            color: var(--accent-gold);
+            border-color: var(--accent-gold);
+          }
+
+          /* Teams Grid - 2 rows of 4 */
+          .teams-container {
+            width: 90%;
+            max-width: 1000px; /* Adjusted for 4 columns */
+            margin-top: 20px;
+          }
+
+          .teams-header {
+            text-align: center;
+            color: var(--accent-gold);
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding-bottom: 10px;
+          }
+
+          .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 columns */
+            grid-template-rows: repeat(2, auto); /* 2 rows */
+            gap: 20px;
+            margin-top: 20px;
+          }
+
+          .team-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            border: 1px solid #333;
+            width: 100%; /* Fill grid cell */
+            cursor: pointer;
+          }
+
+          .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            border-color: var(--accent-gold);
+          }
+
+          .logo-wrapper {
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--darker-bg);
+            border-bottom: 1px solid #333;
+            padding: 10px;
+          }
+
+          .team-logo {
+            max-width: 90%;
+            max-height: 140px;
+            object-fit: contain;
+          }
+
+          .team-info {
+            padding: 15px;
+            text-align: center;
+          }
+
+          .team-owned-by {
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-bottom: 8px;
+          }
+
+          .team-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: contents;
+          }
+
+          /* Responsive */
+          @media (max-width: 900px) {
+            .teams-grid {
+              grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+              grid-template-rows: repeat(4, auto); /* 4 rows */
+            }
+          }
+
+          @media (max-width: 600px) {
+            .teams-grid {
+              grid-template-columns: 1fr; /* 1 column on small screens */
+            }
+
+            .navbar-container { 
+              flex-direction: column; 
+            }
+
+            .navbar-menu {
+              margin-top: 10px; 
+              flex-wrap: wrap; 
+              justify-content: center;
+            }
+
+            .navbar-item { 
+              margin: 5px; 
+            }
+          }
+        </style>
+      </head>
+
+      <body>
+        <nav class="navbar">
+          <div class="navbar-container">
+            <a href="index.html" class="navbar-logo">LBA</a>
+            <ul class="navbar-menu">
+              <li class="navbar-item"><a href="index.html" class="navbar-link">Home</a></li>
+              <li class="navbar-item"><a href="#" class="navbar-link">Schedule</a></li>
+              <li class="navbar-item"><a href="#" class="navbar-link">Players</a></li>
+              <li class="navbar-item"><a href="#" class="navbar-link">Stats</a></li>
+              <li class="navbar-item"><a href="teams.html" class="navbar-link active">Teams</a></li>
+            </ul>
+          </div>
+        </nav>
+
+        <div class="teams-container">
+          <h1 class="teams-header">LBA Teams</h1>
+
+          <div class="teams-grid">
+            <!-- Row 1 -->
+            <a href="team_page.html?ColumbusRiverhawks" class="team-card-link">
+              <div class="team-card">
+                <div class="logo-wrapper">
+                  <img src="https://drive.google.com/thumbnail?id=1E-WHv0i16L6ViK2AhLsY3tyduxo7j2nS&sz=w250-h180" alt="Columbus Riverhawks" class="team-logo">
+                </div>
+                <div class="team-info">
+                  <h3 style="color: #684428; font-size: 16px; margin-bottom: 6px;">Columbus Riverhawks</h3>
+                  <p class="team-owned-by">Owned by:</p>
+                  <p style="color: #684428; font-size: 15px;">Kay Rivers</p>
+                </div>
+              </div>
+            </a>
+            <a href="team_page.html?DallasSteers" class="team-card-link">
+              <div class="team-card">
+                <div class="logo-wrapper">
+                  <img src="https://drive.google.com/thumbnail?id=1pIxyc3TwFKx0fEkhk7Tyc_ae4E0kRiuk&sz=w250-h180" alt="Dallas Steers" class="team-logo">
+                </div>
+                <div class="team-info">
+                  <h3 style="color: silver; font-size: 16px; margin-bottom: 6px;">Dallas Steers</h3>
+                  <p class="team-owned-by">Owned by:</p>
+                  <p style="color: silver; font-size: 15px;">Keyon Hens</p>
+                </div>
+              </div>
+            </a>
+            <a href="team_page.html?DenverMountaineers" class="team-card-link">
+              <div class="team-card">
+                <div class="logo-wrapper">
+                  <img src="https://drive.google.com/thumbnail?id=1wkB6z3U6EwTGnYjad__52dR84KWMloL2&sz=w250-h180" alt="Denver Mountaineers" class="team-logo">
+                </div>
+                <div class="team-info">
+                  <h3 style="color: #E1A80E; font-size: 16px; margin-bottom: 6px;">Denver Mountaineers</h3>
+                  <p class="team-owned-by">Owned by:</p>
+                  <p style="color: #E1A80E; font-size: 15px;">Hunter Jackson</p>
+                </div>
+              </div>
+            </a>
+            <a href="team_page.html?MaineMobsters" class="team-card-link">
+              <div class="team-card">
+                <div class="logo-wrapper">
+                  <img src="https://drive.google.com/thumbnail?id=1qZk64ky90r0Ddg_uhH7NOPQg5-vSHDjZ&sz=w250-h180" alt="Maine Mobsters" class="team-logo">
+                </div>
+                <div class="team-info">
+                  <h3 style="color: gold; font-size: 16px; margin-bottom: 6px;">Maine Mobsters</h3>
+                  <p class="team-owned-by">Owned by:</p>
+                  <p style="color: gold; font-size: 15px;">AK Abass</p>
+                </div>
+              </div>
+            </a>
+            <!-- Row 2 -->
+            <a href="team_page.html?MiamiViceSinners" class="team-card-link">
+              <div class="team-card">
+                <div class="logo-wrapper">
+                  <img src="https://drive.google.com/thumbnail?id=1qUSjUwrpWiHvExokwTkJWDCR0TZ9hlwT&sz=w250-h180" alt="Miami Vice Sinners" class="team-logo">
+                </div>
+                <div class="team-info">
+                  <h3 style="color: pink; font-size: 16px; margin-bottom: 6px;">Miami Vice Sinners</h3>
+                  <p class="team-owned-by">Owned by:</p>
+                  <p style="color: pink; font-size: 15px;">Kenan Kurt</p>
+                </div>
+              </div>
+            </a>
+            <a href="team_page.html?NewYorkCitySlickers" class="team-card-link">
+              <div class="team-card">
+                <div class="logo-wrapper">
+                  <img src="https://drive.google.com/thumbnail?id=1N0ZekAA21kXlQ9tnbyAseBePJJw79vy2&sz=w250-h180" alt="New York City Slickers" class="team-logo">
+                </div>
+                <div class="team-info">
+                  <h3 style="color: #263D4E; font-size: 16px; margin-bottom: 6px;">New York City Slickers</h3>
+                  <p class="team-owned-by">Owned by:</p>
+                  <p style="color: #263D4E; font-size: 15px;">Maverick Doncic</p>
+                </div>
+              </div>
+            </a>
+            <a href="team_page.html?PhoenixHeat" class="team-card-link">
+              <div class="team-card">
+                <div class="logo-wrapper">
+                  <img src="https://drive.google.com/thumbnail?id=1h-vWWI_naDdsmKz2lsvfsPgFowBJQIWO&sz=w250-h180" alt="Phoenix Heat" class="team-logo">
+                </div>
+                <div class="team-info">
+                  <h3 style="color: orange; font-size: 16px; margin-bottom: 6px;">Phoenix Heat</h3>
+                  <p class="team-owned-by">Owned by:</p>
+                  <p style="color: orange; font-size: 15px;">Razor Blades</p>
+                </div>
+              </div>
+            </a>     
+            <a href="team_page.html?UtahRaptors" class="team-card-link">
+              <div class="team-card">
+                <div class="logo-wrapper">
+                  <img src="https://drive.google.com/thumbnail?id=1zRbm7lk35HC9XMiOBEUhcBc_UMMhZ7t5&sz=w250-h180" alt="Utah Raptors" class="team-logo">
+                </div>
+                <div class="team-info">
+                  <h3 style="color: antiquewhite; font-size: 16px; margin-bottom: 6px;">Utah Raptors</h3>
+                  <p class="team-owned-by">Owned by:</p>
+                  <p style="color: antiquewhite; font-size: 15px;">King Beowulf</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = location.pathname.split('/').pop();
+            document.querySelectorAll('.navbar-link').forEach(link => {
+              if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+              }
+
+              link.addEventListener('click', function(e) {
+                if (!this.classList.contains('active')) {
+                  document.querySelectorAll('.navbar-link').forEach(l => l.classList.remove('active'));
+                  this.classList.add('active');
+                }
+              });
+            });
+          });
+        </script>
+      </body>
+      </html>
