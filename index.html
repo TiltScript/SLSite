@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LBA Home Page</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <style>
-    body, body * {
+    body,
+    body * {
       font-weight: bold !important;
     }
+
     /* Dark mode colors */
     :root {
       --dark-bg: #121212;
@@ -19,69 +22,139 @@
       --accent-gold: #FFD700;
       --accent-blue: #1d428a;
     }
-    
+
+    /* Loading overlay styles */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+
+    .loading-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .loading-container {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .loading-spinner {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 6px solid rgba(255, 215, 0, 0.2);
+      border-radius: 50%;
+      border-top-color: var(--accent-gold);
+      animation: spin 1s linear infinite;
+    }
+
+    .loading-logo {
+      color: var(--accent-gold);
+      font-weight: bold;
+      font-size: 28px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
     /* Base styles */
     body {
       background-color: var(--dark-bg);
       color: var(--text-primary);
       font-family: Arial, sans-serif;
-      margin: 0; 
+      margin: 0;
       padding: 80px 20px 20px;
-      display: flex; 
+      display: flex;
       justify-content: space-between;
     }
 
     /* Navbar */
     .navbar {
-      position: fixed; 
-      top: 0; 
-      left: 0; 
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      background-color: var(--darker-bg); 
+      background-color: var(--darker-bg);
       padding: 15px 0;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.5); 
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
       z-index: 1000;
       border-bottom: 2px solid var(--accent-gold);
     }
+
     .navbar-container {
-      max-width: 1200px; 
+      max-width: 1200px;
       margin: 0 auto;
-      display: flex; 
-      justify-content: space-between; 
+      display: flex;
+      justify-content: space-between;
       align-items: center;
       padding: 0 20px;
     }
-    .navbar-logo { 
-      color: var(--accent-gold); 
-      font-weight: bold; 
-      font-size: 24px; 
-      text-decoration: none; 
+
+    .navbar-logo {
+      color: var(--accent-gold);
+      font-weight: bold;
+      font-size: 24px;
+      text-decoration: none;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    .navbar-menu { 
-      display: flex; 
-      list-style: none; 
-      margin: 0; 
-      padding: 0; 
+
+    .navbar-menu {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
-    .navbar-item { 
-      margin-left: 20px; 
+
+    .navbar-item {
+      margin-left: 20px;
     }
+
     .navbar-link {
-      color: var(--text-primary); 
-      text-decoration: none; 
+      color: var(--text-primary);
+      text-decoration: none;
       font-size: 16px;
-      padding: 8px 12px; 
-      border-radius: 4px; 
+      padding: 8px 12px;
+      border-radius: 4px;
       transition: all 0.3s;
       border: 1px solid transparent;
     }
-    .navbar-link:hover { 
+
+    .navbar-link:hover {
       color: var(--accent-gold);
       border-color: var(--accent-gold);
     }
-    .navbar-link.active { 
+
+    .navbar-link.active {
       background-color: rgba(255, 215, 0, 0.2);
       color: var(--accent-gold);
       border-color: var(--accent-gold);
@@ -89,132 +162,152 @@
 
     /* News Ticker */
     .news-ticker-container {
-      width: 600px; 
-      margin-right: 20px; 
+      width: 600px;
+      margin-right: 20px;
       margin-top: 20px;
-      border: 1px solid #333; 
+      border: 1px solid #333;
       overflow: hidden;
-      background-color: var(--card-bg); 
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      background-color: var(--card-bg);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       border-radius: 8px;
     }
+
     .news-ticker-header {
-      background-color: var(--darker-bg); 
+      background-color: var(--darker-bg);
       color: var(--accent-gold);
-      padding: 15px; 
+      padding: 15px;
       text-align: center;
       border-bottom: 1px solid #333;
       font-weight: bold;
       letter-spacing: 1px;
     }
+
     .ticker-nav {
-      display: flex; 
+      display: flex;
       justify-content: center;
-      padding: 8px; 
+      padding: 8px;
       background-color: var(--darker-bg);
       border-bottom: 1px solid #333;
     }
+
     .ticker-nav button {
-      background: transparent; 
-      color: var(--accent-gold); 
+      background: transparent;
+      color: var(--accent-gold);
       border: 1px solid var(--accent-gold);
-      padding: 6px 12px; 
-      margin: 0 5px; 
+      padding: 6px 12px;
+      margin: 0 5px;
       border-radius: 3px;
-      cursor: pointer; 
+      cursor: pointer;
       font-size: 13px;
       transition: all 0.3s;
     }
+
     .ticker-nav button:hover {
       background-color: rgba(255, 215, 0, 0.2);
     }
+
     .news-ticker {
-      position: relative; 
-      height: 360px; 
-      overflow: hidden; 
+      position: relative;
+      height: 360px;
+      overflow: hidden;
       padding: 0;
     }
+
     .news-slide {
       transition: opacity 0.5s ease;
-      width: 100%; 
-      height: 100%; 
+      width: 100%;
+      height: 100%;
       border-radius: 4px;
-      overflow: hidden; 
-      position: absolute; 
-      top: 0; 
+      overflow: hidden;
+      position: absolute;
+      top: 0;
       left: 0;
     }
+
     .news-image {
-      width: 100%; 
-      height: 100%; 
-      object-fit: cover; 
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       object-position: center;
     }
+
     .news-content {
-      position: absolute; 
-      bottom: 0; 
-      left: 0; 
+      position: absolute;
+      bottom: 0;
+      left: 0;
       right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
-      padding: 20px 15px 15px; 
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+      padding: 20px 15px 15px;
       color: white;
     }
-    .news-text { 
-      font-size: 16px; 
-      line-height: 1.4; 
-      margin-bottom: 8px; 
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.8); 
+
+    .news-text {
+      font-size: 16px;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
     }
-    .news-date { 
-      font-size: 13px; 
-      color: var(--accent-gold); 
-      text-align: right; 
+
+    .news-date {
+      font-size: 13px;
+      color: var(--accent-gold);
+      text-align: right;
     }
-    .loading, .error {
-      display: flex; 
-      justify-content: center; 
+
+    .loading,
+    .error {
+      display: flex;
+      justify-content: center;
       align-items: center;
-      width: 100%; 
-      height: 100%; 
+      width: 100%;
+      height: 100%;
       color: var(--text-secondary);
     }
-    .error { 
-      color: #ff6b6b; 
-      font-size: 14px; 
+
+    .error {
+      color: #ff6b6b;
+      font-size: 14px;
     }
 
     /* Standings Table */
-    .tables-wrapper { 
-      width: 400px; 
-      margin-top: 20px; 
+    .tables-wrapper {
+      width: 400px;
+      margin-top: 20px;
     }
+
     table {
-      border-collapse: collapse; 
-      width: 100%; 
+      border-collapse: collapse;
+      width: 100%;
       font-size: 13px;
     }
-    th, td { 
-      padding: 8px 12px; 
-      text-align: center; 
-      border: none; 
+
+    th,
+    td {
+      padding: 8px 12px;
+      text-align: center;
+      border: none;
     }
-    th { 
-      background-color: var(--darker-bg); 
-      font-weight: bold; 
+
+    th {
+      background-color: var(--darker-bg);
+      font-weight: bold;
       color: var(--accent-gold);
       border-bottom: 1px solid #333;
     }
-    tr:nth-child(even) { 
-      background-color: rgba(255, 215, 0, 0.05); 
+
+    tr:nth-child(even) {
+      
     }
+
     tr:hover {
       background-color: rgba(255, 215, 0, 0.1);
     }
+
     h2 {
-      text-align: center; 
+      text-align: center;
       margin: 0 0 15px 0;
-      color: var(--accent-gold); 
-      font-size: 18px; 
+      color: var(--accent-gold);
+      font-size: 18px;
       width: 100%;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -222,38 +315,53 @@
 
     /* Responsive */
     @media (max-width: 1100px) {
-      body { 
-        flex-direction: column; 
-        align-items: center; 
+      body {
+        flex-direction: column;
+        align-items: center;
       }
-      .news-ticker-container, .tables-wrapper {
-        width: 90%; 
-        max-width: 800px; 
+
+      .news-ticker-container,
+      .tables-wrapper {
+        width: 90%;
+        max-width: 800px;
         margin-right: 0;
       }
-      .tables-wrapper { 
-        margin-top: 30px; 
+
+      .tables-wrapper {
+        margin-top: 30px;
       }
-      .navbar-container { 
-        flex-direction: column; 
-        padding: 10px; 
+
+      .navbar-container {
+        flex-direction: column;
+        padding: 10px;
       }
+
       .navbar-menu {
-        margin-top: 10px; 
-        flex-wrap: wrap; 
+        margin-top: 10px;
+        flex-wrap: wrap;
         justify-content: center;
       }
-      .navbar-item { 
-        margin: 5px; 
+
+      .navbar-item {
+        margin: 5px;
       }
-      .news-ticker { 
-        height: 400px; 
+
+      .news-ticker {
+        height: 400px;
       }
     }
   </style>
 </head>
 
 <body>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <div class="loading-logo">LBA</div>
+    </div>
+  </div>
+
   <!-- Navbar -->
   <nav class="navbar">
     <div class="navbar-container">
@@ -263,14 +371,16 @@
         <li class="navbar-item"><a href="#" class="navbar-link">Schedule</a></li>
         <li class="navbar-item"><a href="#" class="navbar-link">Players</a></li>
         <li class="navbar-item"><a href="#" class="navbar-link">Stats</a></li>
-        <li class="navbar-item"><a href="teams.html" class="navbar-link">Teams</a></li>
+        <li class="navbar-item"><a href="/teams.html" class="navbar-link">Teams</a></li>
       </ul>
     </div>
   </nav>
 
   <!-- News Ticker -->
   <div class="news-ticker-container">
-    <div class="news-ticker-header"><h2>LATEST LBA NEWS</h2></div>
+    <div class="news-ticker-header">
+      <h2>LATEST LBA NEWS</h2>
+    </div>
     <div class="ticker-nav">
       <button id="prevBtn">Previous</button>
       <button id="nextBtn">Next</button>
@@ -284,16 +394,30 @@
   <div class="tables-wrapper">
     <h2>Standings</h2>
     <table id="standingsTable">
-      <thead><tr id="standingsHeader"></tr></thead>
+      <thead>
+        <tr id="standingsHeader"></tr>
+      </thead>
       <tbody id="standingsBody"></tbody>
     </table>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
+      const loadingOverlay = document.getElementById('loadingOverlay');
+      
+      // Show loading overlay
+      function showLoading() {
+        loadingOverlay.classList.add('active');
+      }
+      
+      // Hide loading overlay
+      function hideLoading() {
+        loadingOverlay.classList.remove('active');
+      }
+
       // Navbar toggle
       document.querySelectorAll('.navbar-link').forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
           // Only prevent default for # links
           if (this.getAttribute('href') === '#') {
             e.preventDefault();
@@ -308,13 +432,13 @@
       });
 
       const newsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRrPYMiVIxReGjcTtka2STWnIKXx9H55SS6UOrTIJoCJfmkCARaRe4eEJdzC498tvnzScwhGAkBAVcg/pub?gid=0&single=true&output=csv';
-      const ticker     = document.getElementById('newsTicker'),
-            prevBtn    = document.getElementById('prevBtn'),
-            nextBtn    = document.getElementById('nextBtn');
+      const ticker = document.getElementById('newsTicker'),
+        prevBtn = document.getElementById('prevBtn'),
+        nextBtn = document.getElementById('nextBtn');
 
       let currentSlide = 0, slideInterval;
       const slideDuration = 3000;
-      const placeholder   = 'https://via.placeholder.com/1200x720/1e1e1e/FFD700?text=No+Image';
+      const placeholder = 'https://via.placeholder.com/1200x720/1e1e1e/FFD700?text=No+Image';
 
       function showError(msg) {
         ticker.innerHTML = `<div class="error">${msg}</div>`;
@@ -327,15 +451,15 @@
           : url;
       }
 
-      function createSlide({ imageUrl, text }) {
+      function createSlide({imageUrl, text}) {
         const div = document.createElement('div');
         div.className = 'news-slide';
         div.style.display = 'none';
 
         const img = document.createElement('img');
         img.className = 'news-image';
-        img.src         = processDriveUrl(imageUrl);
-        img.onerror     = () => img.src = placeholder;
+        img.src = processDriveUrl(imageUrl);
+        img.onerror = () => img.src = placeholder;
 
         div.appendChild(img);
 
@@ -357,8 +481,8 @@
         });
         currentSlide = i;
       }
-      function nextSlide() { showSlide((currentSlide + 1) % ticker.children.length); }
-      function prevSlide() { showSlide((currentSlide - 1 + ticker.children.length) % ticker.children.length); }
+      function nextSlide() {showSlide((currentSlide + 1) % ticker.children.length);}
+      function prevSlide() {showSlide((currentSlide - 1 + ticker.children.length) % ticker.children.length);}
       function startSlideshow() {
         clearInterval(slideInterval);
         if (ticker.children.length > 1) {
@@ -367,17 +491,18 @@
       }
 
       function loadNews() {
+        showLoading();
         ticker.innerHTML = '<div class="loading">Loading news...</div>';
         Papa.parse(newsCsvUrl, {
           download: true,
           header: false,
           skipEmptyLines: true,
-          complete({ data }) {
+          complete({data}) {
             try {
               if (data.length < 8) throw new Error('Need at least 8 rows for A2/A4/A6/A8');
               const items = [
-                { imageUrl: data[1][0], text: data[3][0] },
-                { imageUrl: data[5][0], text: data[7][0] }
+                {imageUrl: data[1][0], text: data[3][0]},
+                {imageUrl: data[5][0], text: data[7][0]}
               ];
               if (!items.every(i => i.imageUrl && i.text)) {
                 throw new Error('Check A2/A4 for slide 1 and A6/A8 for slide 2');
@@ -394,38 +519,42 @@
             } catch (err) {
               showError(err.message);
               console.error('News loading error:', err);
+            } finally {
+              hideLoading();
             }
           },
           error(err) {
             showError('Failed to load news');
             console.error(err);
+            hideLoading();
           }
         });
       }
 
-      prevBtn.onclick = () => { prevSlide(); startSlideshow(); };
-      nextBtn.onclick = () => { nextSlide(); startSlideshow(); };
+      prevBtn.onclick = () => {prevSlide(); startSlideshow();};
+      nextBtn.onclick = () => {nextSlide(); startSlideshow();};
       ticker.onmouseenter = () => clearInterval(slideInterval);
       ticker.onmouseleave = startSlideshow;
 
-      loadNews();
-      loadStandingsData();
-
+      // Initial load
+      showLoading();
+      Promise.all([loadNews(), loadStandingsData()])
+        .finally(() => hideLoading());
     });
 
-    // Standings loader unchanged
+    // Standings loader
     async function loadStandingsData() {
       const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSc_gjjehNq1x1tXQappfHFEg-0ypvi1UJriEln5Ghv8SkfpG4k3bVDfYp-XEGXOiJdJFRJ5V_Xj3Sp/pub?gid=57730059&single=true&output=csv';
       try {
-        const txt  = await (await fetch(url)).text();
-        const data = Papa.parse(txt.trim(), { skipEmptyLines: true }).data;
+        const txt = await (await fetch(url)).text();
+        const data = Papa.parse(txt.trim(), {skipEmptyLines: true}).data;
 
         const headers = data[1].slice(5, 10);
         headers[0] = 'Seed'; headers[4] = 'PCT';
         const rows = data.slice(2, 10).map(r => r.slice(5, 10));
 
         const thead = document.getElementById('standingsHeader'),
-              tbody = document.getElementById('standingsBody');
+          tbody = document.getElementById('standingsBody');
         thead.innerHTML = ''; tbody.innerHTML = '';
 
         headers.forEach(h => {
