@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Team Page</title>
   <style>
+    /* All your existing CSS styles remain the same */
     body, body * {
       font-weight: bold !important;
       margin: 0;
@@ -79,7 +80,6 @@
       border-color: var(--accent-gold);
     }
 
-    /* Team Header Styles */
     #teamHeader {
       padding: 10px 0 0 10px;
       width: 100%;
@@ -114,7 +114,6 @@
       font-size: 1.1rem;
     }
 
-    /* Roster Table Styles */
     .roster-container {
       padding: 20px 10px;
       width: 100%;
@@ -143,7 +142,6 @@
       border-bottom: none;
     }
 
-    /* Player Name Link Styles */
     .player-name-link {
       color: inherit;
       text-decoration: none;
@@ -154,7 +152,39 @@
       color: var(--accent-gold);
     }
 
-    /* Responsive Styles */
+    /* New styles for stats table */
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+      overflow-x: auto;
+    }
+
+    .stats-table th {
+      background-color: var(--darker-bg);
+      color: var(--accent-gold);
+      padding: 10px;
+      text-align: center;
+      border-bottom: 2px solid var(--accent-gold);
+      white-space: nowrap;
+    }
+
+    .stats-table td {
+      padding: 8px;
+      text-align: center;
+     
+    }
+
+    .stats-table tr:hover {
+      background-color: rgba(255, 215, 0, 0.1);
+    }
+
+    .stats-header {
+      color: var(--accent-gold);
+      margin-top: 30px;
+      margin-bottom: 10px;
+    }
+
     @media (max-width: 768px) {
       #teamHeader {
         padding: 8px 0 0 8px;
@@ -177,6 +207,12 @@
       .roster-table td {
         padding: 8px;
         font-size: 14px;
+      }
+
+      .stats-table th,
+      .stats-table td {
+        padding: 6px;
+        font-size: 12px;
       }
     }
 
@@ -216,7 +252,8 @@
         font-size: 0.9rem;
       }
 
-      .roster-table {
+      .roster-table,
+      .stats-table {
         display: block;
         overflow-x: auto;
       }
@@ -262,6 +299,35 @@
         <!-- Will be populated by JavaScript -->
       </tbody>
     </table>
+
+    <!-- New Player Stat Averages table -->
+    <h2 class="stats-header">Player Stat Averages:</h2>
+    <div style="overflow-x: auto;">
+      <table class="stats-table">
+        <thead>
+          <tr>
+            <th>Player Name</th>
+            <th>PPG</th>
+            <th>RPG</th>
+            <th>APG</th>
+            <th>SPG</th>
+            <th>BPG</th>
+            <th>TOV</th>
+            <th>FG%</th>
+            <th>3P%</th>
+            <th>FT%</th>
+            <th>ORPG</th>
+            <th>DRPG</th>
+            <th>FPG</th>
+            <th>+/-</th>
+            <th>PRF</th>
+          </tr>
+        </thead>
+        <tbody id="statsBody">
+          <!-- Will be populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
@@ -270,68 +336,95 @@
     const query = window.location.search.substring(1);
     const teamId = query || null;
 
-    // Hardcoded team data with specific data rows
+    // Team data
     const teams = {
       ColumbusRiverhawks: {
         name: "Columbus Riverhawks",
         owner: "Kay Rivers",
         color: "#684428",
         logo: "https://drive.google.com/thumbnail?id=1E-WHv0i16L6ViK2AhLsY3tyduxo7j2nS&sz=w250-h180",
-        dataRow: 15 // Row 24 (0-based index)
+        dataRow: 15,
+        dataRow2: 19,
+        dataRow3: 10,
+        dataRow4: 33,
+        dataRow5: 1
       },
       DallasSteers: {
         name: "Dallas Steers",
         owner: "Keyon Hens",
         color: "silver",
         logo: "https://drive.google.com/thumbnail?id=1pIxyc3TwFKx0fEkhk7Tyc_ae4E0kRiuk&sz=w250-h180",
-        dataRow: 13, // Row 26 (0-based index)
-        dataRow2: 11 // Second row for Dallas Steers
+        dataRow: 13,
+        dataRow2: 7,
+        dataRow3: 8,
+        dataRow4: 17,
+        dataRow5: 1
       },
       DenverMountaineers: {
         name: "Denver Mountaineers",
         owner: "Hunter Jackson",
         color: "#E1A80E",
         logo: "https://drive.google.com/thumbnail?id=1wkB6z3U6EwTGnYjad__52dR84KWMloL2&sz=w250-h180",
-        dataRow: 1, // Row 20 (0-based index)
-        dataRow2: 32 // Second row for Denver Mountaineers
+        dataRow: 1,
+        dataRow2: 32,
+        dataRow3: 21,
+        dataRow4: 22,
+        dataRow5: 9
       },
       MaineMobsters: {
         name: "Maine Mobsters",
         owner: "AK Abass",
         color: "gold",
         logo: "https://drive.google.com/thumbnail?id=1qZk64ky90r0Ddg_uhH7NOPQg5-vSHDjZ&sz=w250-h180",
-        dataRow: 34, // Row 5 (0-based index)
-        dataRow2: 29 // Second row for Maine Mobsters
+        dataRow: 34,
+        dataRow2: 29,
+        dataRow3: 20,
+        dataRow4: 27,
+        dataRow5: 16
       },
       MiamiViceSinners: {
         name: "Miami Vice Sinners",
         owner: "Kenan Kurt",
         color: "pink",
         logo: "https://drive.google.com/thumbnail?id=1qUSjUwrpWiHvExokwTkJWDCR0TZ9hlwT&sz=w250-h180",
-        dataRow: 2 // Row 25 (0-based index)
+        dataRow: 2,
+        dataRow2: 6,
+        dataRow3: 38,
+        dataRow4: 35,
+        dataRow5: 36
       },
       NewYorkCitySlickers: {
         name: "New York City Slickers",
         owner: "Maverick Doncic",
         color: "#263D4E",
         logo: "https://drive.google.com/thumbnail?id=1N0ZekAA21kXlQ9tnbyAseBePJJw79vy2&sz=w250-h180",
-        dataRow: 18 // Row 30 (0-based index)
+        dataRow: 18,
+        dataRow2: 31,
+        dataRow3: 25,
+        dataRow4: 37,
+        dataRow5: 30
       },
       PhoenixHeat: {
         name: "Phoenix Heat",
         owner: "Razor Blades",
         color: "orange",
         logo: "https://drive.google.com/thumbnail?id=1h-vWWI_naDdsmKz2lsvfsPgFowBJQIWO&sz=w250-h180",
-        dataRow: 3, // Row 37 (0-based index)
-        dataRow2: 26 // Second row for Phoenix Heat
+        dataRow: 3,
+        dataRow2: 26,
+        dataRow3: 24,
+        dataRow4: 23,
+        dataRow5: 12
       },
       UtahRaptors: {
         name: "Utah Raptors",
         owner: "King Beowulf",
         color: "antiquewhite",
         logo: "https://drive.google.com/thumbnail?id=1zRbm7lk35HC9XMiOBEUhcBc_UMMhZ7t5&sz=w250-h180",
-        dataRow: 4, // Row 27 (0-based index)
-        dataRow2: 39 // Second row for Utah Raptors
+        dataRow: 4,
+        dataRow2: 39,
+        dataRow3: 30,
+        dataRow4: 5,
+        dataRow5: 40
       }
     };
 
@@ -346,47 +439,86 @@
           if (teamId && teams[teamId]) {
             const team = teams[teamId];
             const rosterBody = document.getElementById('rosterBody');
+            const statsBody = document.getElementById('statsBody');
             rosterBody.innerHTML = '';
+            statsBody.innerHTML = '';
             
-            // Process first player
-            if (team.dataRow !== undefined && results.data.length > team.dataRow) {
-              const rowData = results.data[team.dataRow];
-              const playerName = rowData[0] || 'N/A';
-              const height = rowData[1] || 'N/A';
-              const weight = rowData[2] || 'N/A';
-              const wingspan = rowData[3] || 'N/A';
-              
-              addPlayerToRoster(playerName, height, weight, wingspan, team.color);
-            } else {
-              console.error(`Row ${team.dataRow + 1} data not found for ${team.name}`);
-              addPlayerToRoster('Data not found', '', '', '', team.color);
-            }
+            // Process all players (up to 5)
+            const playerRows = [
+              team.dataRow,
+              team.dataRow2,
+              team.dataRow3,
+              team.dataRow4,
+              team.dataRow5
+            ];
             
-            // Process second player if exists
-            if (team.dataRow2 !== undefined && results.data.length > team.dataRow2) {
-              const rowData2 = results.data[team.dataRow2];
-              const playerName2 = rowData2[0] || 'N/A';
-              const height2 = rowData2[1] || 'N/A';
-              const weight2 = rowData2[2] || 'N/A';
-              const wingspan2 = rowData2[3] || 'N/A';
-              
-              addPlayerToRoster(playerName2, height2, weight2, wingspan2, team.color);
-            }
+            // Array to hold player data for sorting
+            const players = [];
+            
+            playerRows.forEach(rowIndex => {
+              if (rowIndex !== undefined && results.data.length > rowIndex) {
+                const rowData = results.data[rowIndex];
+                const playerName = rowData[0] || 'N/A';
+                const height = rowData[1] || 'N/A';
+                const weight = rowData[2] || 'N/A';
+                const wingspan = rowData[3] || 'N/A';
+                
+                addPlayerToRoster(playerName, height, weight, wingspan, team.color, team);
+                
+                // Add player to array for stats table
+                players.push({
+                  name: playerName,
+                  // These stats would normally come from your data source
+                  // For now we'll leave them empty as requested
+                  ppg: '',
+                  rpg: '',
+                  apg: '',
+                  spg: '',
+                  bpg: '',
+                  tov: '',
+                  fg: '',
+                  threeP: '',
+                  ft: '',
+                  orpg: '',
+                  drpg: '',
+                  fpg: '',
+                  plusMinus: '',
+                  prf: '',
+                  teamColor: team.color
+                });
+              } else if (rowIndex !== undefined) {
+                console.error(`Row ${rowIndex + 1} data not found for ${team.name}`);
+              }
+            });
+            
+            // Sort players by PPG (highest first)
+            players.sort((a, b) => {
+              // Since we're using empty strings for now, this won't actually sort
+              // In a real implementation, you would compare the numeric values
+              return 0;
+            });
+            
+            // Add players to stats table
+            players.forEach(player => {
+              addPlayerToStats(player);
+            });
           }
         },
         error: function(error) {
           console.error('Error loading CSV:', error);
           if (teamId && teams[teamId]) {
             const rosterBody = document.getElementById('rosterBody');
+            const statsBody = document.getElementById('statsBody');
             rosterBody.innerHTML = '';
-            addPlayerToRoster('Error loading data', '', '', '', teams[teamId].color);
+            statsBody.innerHTML = '';
+            addPlayerToRoster('Error loading data', '', '', '', teams[teamId].color, teams[teamId]);
           }
         }
       });
     }
 
     // Function to add a player row to the roster table
-    function addPlayerToRoster(playerName, height, weight, wingspan, teamColor) {
+    function addPlayerToRoster(playerName, height, weight, wingspan, teamColor, teamData) {
       const rosterBody = document.getElementById('rosterBody');
       
       const row = document.createElement('tr');
@@ -394,7 +526,7 @@
       // Player Name cell with link
       const nameCell = document.createElement('td');
       const nameLink = document.createElement('a');
-      nameLink.href = '#';
+      nameLink.href = `player_page.html?player=${encodeURIComponent(playerName)}&height=${encodeURIComponent(height)}&weight=${encodeURIComponent(weight)}&wingspan=${encodeURIComponent(wingspan)}&team=${encodeURIComponent(teamData.name)}&teamLogo=${encodeURIComponent(teamData.logo)}&teamColor=${encodeURIComponent(teamData.color)}&teamOwner=${encodeURIComponent(teamData.owner)}`;
       nameLink.className = 'player-name-link';
       nameLink.textContent = playerName;
       nameLink.style.color = teamColor;
@@ -410,6 +542,35 @@
       });
       
       rosterBody.appendChild(row);
+    }
+
+    // Function to add a player row to the stats table
+    function addPlayerToStats(player) {
+      const statsBody = document.getElementById('statsBody');
+      const row = document.createElement('tr');
+      
+      // Player Name cell
+      const nameCell = document.createElement('td');
+      nameCell.textContent = player.name;
+      nameCell.style.color = player.teamColor;
+      nameCell.style.textAlign = 'left';
+      row.appendChild(nameCell);
+      
+      // Stats cells
+      const stats = [
+        player.ppg, player.rpg, player.apg, player.spg, player.bpg,
+        player.tov, player.fg, player.threeP, player.ft,
+        player.orpg, player.drpg, player.fpg, player.plusMinus, player.prf
+      ];
+      
+      stats.forEach(stat => {
+        const cell = document.createElement('td');
+        cell.textContent = stat;
+        cell.style.color = player.teamColor;
+        row.appendChild(cell);
+      });
+      
+      statsBody.appendChild(row);
     }
 
     // Initialize the page
@@ -429,4 +590,4 @@
     }
   </script>
 </body>
-</html>  
+</html>
