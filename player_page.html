@@ -141,7 +141,6 @@
       display: flex;
       justify-content: center;
       margin-bottom: 20px;
-      border-bottom: 1px solid var(--darker-bg);
     }
 
     .master-player-tabs {
@@ -189,7 +188,6 @@
     .attribute-category h4 {
       color: var(--accent-gold);
       margin-bottom: 10px;
-      border-bottom: 1px solid var(--darker-bg);
       padding-bottom: 5px;
     }
 
@@ -208,10 +206,48 @@
     }
 
     .badges-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 15px;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
     }
+
+    .attribute-category {
+      flex: 1;
+      min-width: 200px;
+      max-width: 220px;
+    }
+
+    .badge-item {
+      padding: 8px 10px;
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .attribute-category h4 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+    }
+
+    .badge-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background-color: var(--darker-bg);
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .badge-item .attribute-label {
+      color: white !important;
+      font-weight: bold !important;
+    }
+    
 
     .badge-item {
       display: flex;
@@ -235,14 +271,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-    .badges-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      width: 100%;
-      max-width: 1200px; 
     }
 
     .tendencies-grid {
@@ -622,227 +650,152 @@
         </div>
       </div>
       
-      <!-- Badges Content -->
-      <div id="badges-content" class="master-player-content">
-        <div class="badges-container">
-          <!-- First Row -->
-          <div class="attribute-category">
-            <h4>Finishing:</h4>
-            <div class="badge-item">
-              <span class="attribute-label">Aerial Wizard</span>
+        <!-- Badges Content -->
+        <div id="badges-content" class="master-player-content">
+          <div class="badges-container">
+            <!-- Finishing -->
+            <div class="attribute-category">
+              <h4>Finishing:</h4>
+              <div class="badge-item">
+                <span class="attribute-label">Aerial Wizard</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Float Game</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Hook Specialist</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Layup Mixmaster</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Paint Prodigy</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Physical Finisher</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Post Fade Phenom</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Post Powerhouse</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Post Up Poet</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Posterizer</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Rise Up</span>
+              </div>
             </div>
-            <div class="badge-item">
-              <span class="attribute-label">Float Game</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Hook Specialist</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Layup Mixmaster</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Paint Prodigy</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Physical Finisher</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Post Fade Phenom</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Post Powerhouse</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Post Up Poet</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Posterizer</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Rise Up</span>
-            </div>
-          </div>
 
-          <div class="attribute-category">
-            <h4>Shooting:</h4>
-            <div class="badge-item">
-              <span class="attribute-label">Deadeye</span>
+            <!-- Shooting -->
+            <div class="attribute-category">
+              <h4>Shooting:</h4>
+              <div class="badge-item">
+                <span class="attribute-label">Deadeye</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Limitless Range</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Mini Marksman</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Set Shot Specialist</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Shifty Shooter</span>
+              </div>
             </div>
-            <div class="badge-item">
-              <span class="attribute-label">Limitless Range</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Mini Marksman</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Set Shot Specialist</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Shifty Shooter</span>
-            </div>
-          </div>
 
-          <div class="attribute-category">
-            <h4>Playmaking:</h4>
-            <div class="badge-item">
-              <span class="attribute-label">Ankle Assassin</span>
+            <!-- Playmaking -->
+            <div class="attribute-category">
+              <h4>Playmaking:</h4>
+              <div class="badge-item">
+                <span class="attribute-label">Ankle Assassin</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Bail Out</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Break Starter</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Dimer</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Lightning Launch</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Strong Handle</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Unpluckable</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Versatile Visionary</span>
+              </div>
             </div>
-            <div class="badge-item">
-              <span class="attribute-label">Bail Out</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Break Starter</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Dimer</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Lightning Launch</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Strong Handle</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Unpluckable</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Versatile Visionary</span>
-            </div>
-          </div>
-        </div>
 
-        <!-- Second Row (Centered) -->
-        <div class="badges-container" style="justify-content: center; margin-top: 20px;">
-          <div class="attribute-category">
-            <h4>Defense:</h4>
-            <div class="badge-item">
-              <span class="attribute-label">Challenger</span>
+            <!-- Defense -->
+            <div class="attribute-category">
+              <h4>Defense:</h4>
+              <div class="badge-item">
+                <span class="attribute-label">Challenger</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Glove</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Interceptor</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">High Flying Denier</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Immovable Enforcer</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Off Ball Pest</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">On-Ball Menace</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Paint Patroller</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Pick Dodger</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Post Lockdown</span>
+              </div>
             </div>
-            <div class="badge-item">
-              <span class="attribute-label">Glove</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Interceptor</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">High Flying Denier</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Immovable Enforcer</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Off Ball Pest</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">On-Ball Menace</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Paint Patroller</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Pick Dodger</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Post Lockdown</span>
-            </div>
-          </div>
 
-          <div class="attribute-category">
-            <h4>Other:</h4>
-            <div class="badge-item">
-              <span class="attribute-label">Boxout Beast</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Rebound Chaser</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Brick Wall</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Slippery Off Ball</span>
-            </div>
-            <div class="badge-item">
-              <span class="attribute-label">Pogo Stick</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Tendencies Content -->
-      <div id="tendencies-content" class="master-player-content">
-        <div class="tendencies-grid">
-          <div class="attribute-category">
-            <h4>Offensive Tendencies</h4>
-            <div class="attribute-row">
-              <span class="attribute-label">Shoot Inside:</span>
-              <span id="tendency-inside" class="attribute-value">-</span>
-            </div>
-            <div class="attribute-row">
-              <span class="attribute-label">Shoot Mid-Range:</span>
-              <span id="tendency-mid" class="attribute-value">-</span>
-            </div>
-            <div class="attribute-row">
-              <span class="attribute-label">Shoot 3PT:</span>
-              <span id="tendency-three" class="attribute-value">-</span>
-            </div>
-            <div class="attribute-row">
-              <span class="attribute-label">Drive to Basket:</span>
-              <span id="tendency-drive" class="attribute-value">-</span>
-            </div>
-            <div class="attribute-row">
-              <span class="attribute-label">Post Up:</span>
-              <span id="tendency-post" class="attribute-value">-</span>
-            </div>
-          </div>
-          
-          <div class="attribute-category">
-            <h4>Defensive Tendencies</h4>
-            <div class="attribute-row">
-              <span class="attribute-label">On-Ball Defense:</span>
-              <span id="tendency-onball" class="attribute-value">-</span>
-            </div>
-            <div class="attribute-row">
-              <span class="attribute-label">Steal Attempts:</span>
-              <span id="tendency-steal" class="attribute-value">-</span>
-            </div>
-            <div class="attribute-row">
-              <span class="attribute-label">Block Attempts:</span>
-              <span id="tendency-block" class="attribute-value">-</span>
-            </div>
-            <div class="attribute-row">
-              <span class="attribute-label">Help Defense:</span>
-              <span id="tendency-help" class="attribute-value">-</span>
+            <!-- Other -->
+            <div class="attribute-category">
+              <h4>Other:</h4>
+              <div class="badge-item">
+                <span class="attribute-label">Boxout Beast</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Rebound Chaser</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Brick Wall</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Slippery Off Ball</span>
+              </div>
+              <div class="badge-item">
+                <span class="attribute-label">Pogo Stick</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      
-      <!-- Hotzones Content -->
-      <div id="hotzones-content" class="master-player-content">
-        <div class="hotzones-container">
-          <p>Player shooting percentages by area on the court</p>
-          <div class="hotzones-court">
-            <!-- This would be replaced with an actual court visualization -->
-            <p style="text-align: center; margin-top: 120px;">Hotzones visualization would appear here</p>
-          </div>
-          <div class="attribute-row">
-            <span class="attribute-label">Overall Shooting %:</span>
-            <span id="overall-shooting" class="attribute-value">-</span>
-          </div>
-          <div class="attribute-row">
-            <span class="attribute-label">3PT Shooting %:</span>
-            <span id="threept-shooting" class="attribute-value">-</span>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Animations Content -->
-      <div id="animations-content" class="master-player-content">
-        <div class="animations-list">
-          <!-- Animations will be populated by JavaScript -->
-        </div>
-      </div>
-    </div>
     
     <h2 style="color: var(--accent-gold); margin-top: 30px;">Season Stats:</h2>
     <table class="stats-table">
