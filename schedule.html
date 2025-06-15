@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LBA Schedule</title>
+  <style>
+    body,
+    body * {
+      font-weight: bold !important;
+    }
+
+    :root {
+      --dark-bg: #121212;
+      --darker-bg: #0a0a0a;
+      --text-primary: #ffffff;
+      --accent-gold: #FFD700;
+    }
+
+    body {
+      background-color: var(--dark-bg);
+      color: var(--text-primary);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 80px 20px 20px;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: var(--darker-bg);
+      padding: 15px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      border-bottom: 2px solid var(--accent-gold);
+    }
+
+    .navbar-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .navbar-logo {
+      color: var(--accent-gold);
+      font-size: 24px;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .navbar-menu {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar-item {
+      margin-left: 20px;
+    }
+
+    .navbar-link {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 16px;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: all 0.3s;
+      border: 1px solid transparent;
+    }
+
+    .navbar-link:hover {
+      color: var(--accent-gold);
+      border-color: var(--accent-gold);
+    }
+
+    .navbar-link.active {
+      background-color: rgba(255, 215, 0, 0.2);
+      color: var(--accent-gold);
+      border-color: var(--accent-gold);
+    }
+
+    @media (max-width: 1100px) {
+      .navbar-container {
+        flex-direction: column;
+        padding: 10px;
+      }
+
+      .navbar-menu {
+        margin-top: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .navbar-item {
+        margin: 5px;
+      }
+    }
+    h2 {
+      text-align: center;
+      margin: 0 0 15px 0;
+      color: var(--accent-gold);
+      font-size: 100px;
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="#" class="navbar-logo">LBA</a>
+      <ul class="navbar-menu">
+        <li class="navbar-item"><a href="/" class="navbar-link">Home</a></li>
+        <li class="navbar-item"><a href="#" class="navbar-link active">Schedule</a></li>
+        <li class="navbar-item"><a href="/players" class="navbar-link">Players</a></li>
+        <li class="navbar-item"><a href="/stats" class="navbar-link">Stats</a></li>
+        <li class="navbar-item"><a href="/teams" class="navbar-link">Teams</a></li>
+      </ul>
+    </div>
+  </nav>
+  <h2>Soon...</h2>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.navbar-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          if (this.getAttribute('href') === '#') {
+            e.preventDefault();
+          }
+          document.querySelectorAll('.navbar-link').forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
