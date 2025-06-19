@@ -271,9 +271,8 @@
 
     /* Standings Table */
     .tables-wrapper {
-      width: 1000%;
+      width: 400px;
       margin-top: 20px;
-      margin-left: 20px;
     }
     
     table {
@@ -369,10 +368,10 @@
       <a href="#" class="navbar-logo">LBA</a>
       <ul class="navbar-menu">
         <li class="navbar-item"><a href="#" class="navbar-link active">Home</a></li>
-        <li class="navbar-item"><a href="schedule.html" class="navbar-link">Schedule</a></li>
-        <li class="navbar-item"><a href="/players.html" class="navbar-link">Players</a></li>
-        <li class="navbar-item"><a href="/stats.html" class="navbar-link">Stats</a></li>
-        <li class="navbar-item"><a href="teams.html" class="navbar-link">Teams</a></li>
+        <li class="navbar-item"><a href="/schedule.html" class="navbar-link">Schedule</a></li>
+        <li class="navbar-item"><a href="#" class="navbar-link">Players</a></li>
+        <li class="navbar-item"><a href="#" class="navbar-link">Stats</a></li>
+        <li class="navbar-item"><a href="/teams.html" class="navbar-link">Teams</a></li>
       </ul>
     </div>
   </nav>
@@ -535,33 +534,46 @@
 
       function loadStandingsData() {
         return new Promise(async (resolve, reject) => {
-          const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSc_gjjehNq1x1tXQappfHFEg-0ypvi1UJriEln5Ghv8SkfpG4k3bVDfYp-XEGXOiJdJFRJ5V_Xj3Sp/pub?gid=57730059&single=true&output=csv';
+          const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSUXxv2LI_CXHUr7EQM5gX5ddG9fRA2oeMbfnC5_ruhTjWC2WjIYBhGJ91-qPoioyf2y5k5K6gBngEt/pub?gid=341899210&single=true&output=csv';
           try {
             const txt = await (await fetch(url)).text();
             const data = Papa.parse(txt.trim(), { skipEmptyLines: true }).data;
 
-            const headers = data[1].slice(5, 10);
-            headers[0] = 'Seed'; headers[4] = 'PCT';
-            const rows = data.slice(2, 10).map(r => r.slice(5, 10));
+            const headers = ['Team', 'Games Played', 'Wins', 'Losses', 'Win%'];
+            const columnIndexes = [0, 1, 2, 3, 7];
+
+            const rows = data.slice(1, 9);
+
+            // Fix incorrect team name if it appears
+            rows.forEach(row => {
+              if (row[0] && row[0].trim() === "Columbus RiverHawks") {
+                row[0] = "Columbus Riverhawks";
+              }
+            });
 
             const thead = document.getElementById('standingsHeader'),
-              tbody = document.getElementById('standingsBody');
-            thead.innerHTML = ''; tbody.innerHTML = '';
+                  tbody = document.getElementById('standingsBody');
+            thead.innerHTML = '';
+            tbody.innerHTML = '';
 
+            // Create header row
             headers.forEach(h => {
               const th = document.createElement('th');
-              th.textContent = h || '-';
+              th.textContent = h;
               thead.appendChild(th);
             });
-            rows.forEach(r => {
+
+            // Create body rows
+            rows.forEach(row => {
               const tr = document.createElement('tr');
-              r.forEach(c => {
+              columnIndexes.forEach(i => {
                 const td = document.createElement('td');
-                td.textContent = c || '-';
+                td.textContent = row[i] || '-';
                 tr.appendChild(td);
               });
               tbody.appendChild(tr);
             });
+
             resolve();
           } catch (e) {
             console.error(e);
@@ -571,6 +583,8 @@
           }
         });
       }
+
+
 
       // Slideshow buttons
       prevBtn.onclick = () => { prevSlide(); startSlideshow(); };
@@ -592,7 +606,6 @@
 
       loadAllContent();
     });
-    document.querySelector('.news-ticker-container').style.display = 'none';
   </script>
 </body>
 </html>
